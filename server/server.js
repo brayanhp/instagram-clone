@@ -89,9 +89,9 @@
 
   // Configure Pusher client
   let pusher = new Pusher({
-    appId: '624652',
-    key: '143bcfe9f03278041140',
-    secret: '3b09dfe32946367ea20f',
+    appId: 'ID',
+    key: 'KEY',
+    secret: 'SECRET',
     cluster: 'us2',
     encrypted: true
   });
