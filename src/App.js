@@ -1,28 +1,50 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from "react-apollo";
 import './App.css';
 
+import Pusher from 'pusher-js';
+
+import Header from './components/Header';
+import Posts from './components/Posts';
+
+
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/graphql"
+});
+
 class App extends Component {
+
+  constructor() {
+    super();
+    this.pusher = new Pusher("143bcfe9f03278041140", {
+      cluster: 'eu',
+      encrypted: true
+    });
+  }
+
+  componentDidMount(){
+    if ('actions' in Notification.prototype) {
+      console.log('You can enjoy notification feature');
+    } else {
+      console.log('Sorry notifications are NOT supported on your browser');
+    }
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <ApolloProvider client={client}>
+        <div className="App">
+          <Header />
+          <section className="App-main">
+            {/* pass the pusher object and apollo to the posts component */}
+            <Posts pusher={this.pusher} apollo_client={client} />
+          </section>
+        </div>
+      </ApolloProvider>
     );
   }
-}
 
+}
 export default App;
